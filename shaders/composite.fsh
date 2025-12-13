@@ -47,23 +47,28 @@ void main() {
     float expansion = shapeDepth * 0.006; 
 
     // CORE
-    float coreRadius = (0.13 * float(CORE_SIZE)) + expansion; 
+    float coreRadius = (0.13 * CORE_SIZE) + expansion; 
     float beamCore = 1.0 - smoothstep(coreRadius, coreRadius + 0.05, dist);
+    vec3 coreColor = vec3(CORE_RED, CORE_GREEN, CORE_BLUE) * beamCore;
     
     // HALO
-    float haloRadius = (0.25 * float(HALO_SIZE)) + expansion;
+    float haloRadius = (0.25 * HALO_SIZE) + expansion;
     float beamHalo = 1.0 - smoothstep(haloRadius, haloRadius + 0.15, dist);
+    vec3 haloColor = vec3(HALO_RED, HALO_GREEN, HALO_BLUE) * beamHalo;
     
     // SPILL
-    float beamSpill = 1.0 - smoothstep(0.0, 1.2 * float(HALO_SIZE) + expansion, dist);
+    float beamSpill = 1.0 - smoothstep(0.0, 1.2 * HALO_SIZE + expansion, dist);
+    vec3 spillColor = vec3(SPILL_RED, SPILL_GREEN, SPILL_BLUE) * beamSpill;
 
     // Combine Layers
-    float flashlight = (beamCore * float(CORE_BRIGHTNESS)) + 
-                       (beamHalo * float(HALO_BRIGHTNESS)) + 
-                       (beamSpill * float(SPILL_BRIGHTNESS));
+    float flashlight = (beamCore * CORE_BRIGHTNESS) + 
+                       (beamHalo * HALO_BRIGHTNESS) + 
+                       (beamSpill * SPILL_BRIGHTNESS);
+    vec3 flashlightColor = coreColor * CORE_SATURATION + haloColor * HALO_SATURATION + spillColor * SPILL_SATURATION;
+    
 
     // Surface Falloff (Wall Fade)
-    float surfaceFalloff = 1.0 - (realDepth / float(FLASHLIGHT_RANGE));
+    float surfaceFalloff = 1.0 - (realDepth / FLASHLIGHT_RANGE);
     surfaceFalloff = smoothstep(0.0, 1.0, surfaceFalloff);
     surfaceFalloff *= surfaceFalloff;
 
@@ -94,14 +99,16 @@ void main() {
         color *= finalLight;
     }
 
+    color *= flashlightColor;
+
     // --- FOG & VOLUMETRICS ---
     
     // Calculate Fog Distance
     float fogDist = realDepth + dist * 2.0 - (finalLight * 15.0);
     
     // Air Beam (Volumetric Cone)
-    float airPower = smoothstep(0.0, 50.0, float(FLASHLIGHT_RANGE)); 
-    float airBeam = beamSpill * float(SPILL_BRIGHTNESS) * 2.0 * airPower;
+    float airPower = smoothstep(0.0, 50.0, FLASHLIGHT_RANGE); 
+    float airBeam = beamSpill * SPILL_BRIGHTNESS * 2.0 * airPower;
 
     // Fog Density
     float fogStrength = (fogDist - 2.0) * 0.15;
@@ -109,7 +116,7 @@ void main() {
     fogStrength = clamp(fogStrength, 0.0, 1.0);
 
     // Fog Colors
-    vec3 darkFogColor = vec3(0.05, 0.05, 0.05) * float(AMBIENT_BRIGHTNESS);
+    vec3 darkFogColor = vec3(0.05, 0.05, 0.05) * AMBIENT_BRIGHTNESS;
     vec3 beamFogColor = vec3(0.1, 0.1, 0.15); 
     
     vec3 finalFogColor = mix(darkFogColor, beamFogColor, clamp(airBeam, 0.0, 1.0));
@@ -119,7 +126,7 @@ void main() {
 
     // Additive Air Glow
     #ifdef VOLUMETRIC_INTENSITY
-       color += vec3(airBeam * fogStrength * 0.15 * float(VOLUMETRIC_INTENSITY)); 
+       color += vec3(airBeam * fogStrength * 0.15 * VOLUMETRIC_INTENSITY); 
     #else
        color += vec3(airBeam * fogStrength * 0.15); 
     #endif

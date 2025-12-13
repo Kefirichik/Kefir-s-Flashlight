@@ -6,21 +6,42 @@ option.AMBIENT_BRIGHTNESS=Fog Brightness
 option.AMBIENT_BRIGHTNESS.comment=How bright the fog is
 option.FLASHLIGHT_RANGE = Flashlight Range
 screen.FLASHLIGHT_CONFIG=Flashlight Customization
+screen.CORE_SETTINGS = Core Settings
+screen.CORE_SETTINGS.comment = Centere spot customization
+screen.HALO_SETTINGS = Halo Settings
+screen.HALO_SETTINGS.comment = Outer ring customization
+screen.SPILL_SETTINGS = Spill Settings
+screen.SPILL_SETTINGS.comment = Atmospheric glow customization
 
-option.CORE_BRIGHTNESS=Core Intensity
+
+option.CORE_BRIGHTNESS=Intensity
 option.CORE_BRIGHTNESS.comment=Brightness of the center white spot
 
-option.HALO_BRIGHTNESS=Halo Intensity
+option.HALO_BRIGHTNESS=Intensity
 option.HALO_BRIGHTNESS.comment=Brightness of the outer ring
 
-option.SPILL_BRIGHTNESS=Spill Intensity
+option.SPILL_BRIGHTNESS=Intensity
 option.SPILL_BRIGHTNESS.comment=Brightness of the atmosphere glow around the beam
 
-option.CORE_SIZE=Core Size
+option.CORE_SIZE=Size
 option.CORE_SIZE.comment=Width of the central hot spot
 
-option.HALO_SIZE=Halo Size
+option.HALO_SIZE=Size
 option.HALO_SIZE.comment=Width of the outer ring
 
 option.VOLUMETRIC_INTENSITY=Fog Density
 option.VOLUMETRIC_INTENSITY.comment=Visibility of the beam in the air. 0.0 = Realistic Clean Air.
+
+option.CORE_RED = Red value
+option.CORE_GREEN = Green value
+option.CORE_BLUE = Blue value
+option.HALO_RED = Red value
+option.HALO_GREEN = Green value
+option.HALO_BLUE = Blue value
+option.SPILL_RED = Red value
+option.SPILL_GREEN = Green value
+option.SPILL_BLUE = Blue value
+
+option.CORE_SATURATION = Color Saturation
+option.HALO_SATURATION = Color Saturation
+option.SPILL_SATURATION = Color Saturation
